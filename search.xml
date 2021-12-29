@@ -172,4 +172,43 @@ I returned a value!!
         <category>Python</category>
       </categories>
   </entry>
+  <entry>
+    <title>How to install CASTEP.</title>
+    <url>/2021/12/28/How-to-install-CASTEP/</url>
+    <content><![CDATA[<p>This post is <em><strong>not</strong></em> a substitute to official tutorial, and is just a simplified version, which suit better if you want to install CASTEP on HPC of Wuhan University.<br>If you have obtain CASTEP, after unpacking, you can read the official install tutorial: <strong>README.INSTALL</strong> . </p>
+<span id="more"></span>
+<p>A cost-free worldwide source code license to CASTEP and NMR CASTEP for academic use is availible.<br>Before reading this post, you can get CASTEP through the website:</p>
+<center>http://www.castep.org/CASTEP/GettingCASTEP </center>  
+<br/>
+ 
+
+<h1 id="System-Environment"><a href="#System-Environment" class="headerlink" title="System Environment"></a>System Environment</h1><p>These are required to compile CASTEP:<br><strong><font size="4">1. Fortran 2003 compiler. </font></strong><br>Here I recommend GNU Fortran (4.9.1, 5.4.0, 6.3-4, 7.2-7.5, 8.*, 9.2, 9.3.0, 10.1.0).<br><strong><font size="4">2. Numerical libraries. (implementing the LAPACK and BLAS functionality)</font></strong><br>Intel MKL is recommended as it also contains an optimised FFT library. I use mkl included in Intel oneAPI.<br><strong><font size="4">3. GNU make version 3.81 or later.</font></strong><br><strong><font size="4">4. Python.</font></strong><br><strong><font size="4">5. Optimised FFT library</font></strong><br>Intel MKL</p>
+<p>While using HPC of WHU, you should load <strong>scl/gcc4.9</strong> and <strong>intel/oneapi/2021</strong> first while install and in the <em>.sbatch</em> file.</p>
+<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><p>We use CASTEP-21.11 as an example.</p>
+<p>First of all:  </p>
+<pre><code>tar -zxf CASTEP-21.11.tar.gz
+cd CASTEP-21.1
+make
+</code></pre>
+<p>Then open the file: <em>Makefile</em><br>Modify the value of <strong>FFT</strong> and <strong>MATHLIBS</strong> to <code>mkl</code>. Save and quit.  </p>
+<p>Enter <code>bin</code>, create a directory named: <code>linux_x86_64_ifort serial</code>.</p>
+<p>Then install through code:</p>
+<pre><code>make install
+</code></pre>
+<p>After installation, you can check through code:</p>
+<pre><code>make check FFT=mkl MATHLIBS=mkl
+</code></pre>
+<h1 id="Calling-the-programme"><a href="#Calling-the-programme" class="headerlink" title="Calling the programme"></a>Calling the programme</h1><p>You can call the programme through code:</p>
+<pre><code>castep.serial &lt;seedname&gt;
+</code></pre>
+<p>If you haven’t (or can’t) add castep into <em>path</em>, use the code:</p>
+<pre><code> *...\linux_x86_64_ifort\castep.serial &lt;seedname&gt;
+</code></pre>
+<h1 id="Online-Tutorials"><a href="#Online-Tutorials" class="headerlink" title="Online Tutorials"></a>Online Tutorials</h1><p align="left">Online and official tutorial is availible through the website:  </p>
+<center>http://www.castep.org/CASTEP/OnlineTutorials </center>]]></content>
+      <categories>
+        <category>Code and Software</category>
+        <category>CASTEP</category>
+      </categories>
+  </entry>
 </search>
