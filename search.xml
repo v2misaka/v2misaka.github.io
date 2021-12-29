@@ -201,7 +201,7 @@ make
 <h1 id="Calling-the-programme"><a href="#Calling-the-programme" class="headerlink" title="Calling the programme"></a>Calling the programme</h1><p>You can call the programme through code:</p>
 <pre><code>castep.serial &lt;seedname&gt;
 </code></pre>
-<p>If you haven’t (or can’t) add castep into <em>path</em>, use the code:</p>
+<p>If you have not (or cannot) add castep into <em>path</em>, use the code:</p>
 <pre><code> *...\linux_x86_64_ifort\castep.serial &lt;seedname&gt;
 </code></pre>
 <h1 id="Online-Tutorials"><a href="#Online-Tutorials" class="headerlink" title="Online Tutorials"></a>Online Tutorials</h1><p align="left">Online and official tutorial is availible through the website:  </p>
