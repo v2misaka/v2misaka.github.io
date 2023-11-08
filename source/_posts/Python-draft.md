@@ -1,7 +1,7 @@
 ---
 layout:
   - post
-title: Python note
+title: Python note -really basic
 date: 2021-12-29 21:29:12
 updated: 2021-12-29 21:29:12
 categories:
@@ -17,7 +17,6 @@ Hope that helps.
 # Primitive Types
 
 ## Number
-
 
 ```python
 print(10 + 3)
@@ -41,10 +40,8 @@ print(round(-2.9))
     1000
     2.9
     -3
-    
 
 ## String
-
 
 ```python
 course = "   Python programming "  # Notice the blank
@@ -53,10 +50,8 @@ print(len(course))
 ```
 
     22
-    
 
 ### methods for string
-
 
 ```python
 print(course.upper())
@@ -89,10 +84,8 @@ print(course.replace("p", "j"))
     True
     True
        Python jrogramming 
-    
 
 ### operations of string
-
 
 ```python
 you = "xixi"
@@ -105,10 +98,8 @@ print(you_love_me)
 
     xixixuxu
     xixi love xuxu 520
-    
 
 ## Boolean
-
 
 ```python
 print(bool(0))
@@ -117,10 +108,8 @@ print(int(False))
 
     False
     0
-    
 
 ## Input statement
-
 
 ```python
 x = input("please input x:")
@@ -136,10 +125,8 @@ print(type(x))
     <class 'str'>
     224
     <class 'str'>
-    
 
 # Control Flow
-
 
 ## Conditional Statements
 
@@ -147,16 +134,13 @@ print(type(x))
 
 comparison operators：> < >= <= == !=
 
-
 ```python
 print(ord("B"))  # show the ASCII value
 ```
 
     66
-    
 
 #### Comparison Statements
-
 
 ```python
 a = 2
@@ -168,8 +152,6 @@ if a < b:
 ```
 
     a < b
-    
-
 
 ```python
 # a more simpler statement
@@ -182,10 +164,8 @@ if 18 <= age < 65:
 
     Eligible
     Eligible
-    
 
 ##### compare: 'if' ; 'elif'
-
 
 ```python
 a = 2
@@ -207,12 +187,10 @@ print("done")
     a < b
     a<<b
     done
-    
 
 ### Logical
 
 Logical operators：and； or； not
-
 
 ```python
 high_income = False
@@ -235,12 +213,10 @@ else:
     Not Eligible
     Eligible
     Eligible
-    
 
 ## Loop Statements
 
 ### for
-
 
 ```python
 for number in range(3):
@@ -264,10 +240,8 @@ for number in range(1, 10, 2):
     number = 5
     number = 7
     number = 9
-    
 
 #### for...else
-
 
 ```python
 for number in range(1, 5):
@@ -293,10 +267,8 @@ else:
     number = 3
     number = 4
     Success
-    
 
 ### Iterable
-
 
 ```python
 print(type(range(3)))  # range
@@ -334,10 +306,8 @@ for x in [1, 2, 3, 145]:
     2
     3
     145
-    
 
 ### while
-
 
 ```python
 number = 100
@@ -353,12 +323,10 @@ while number > 0:
     6
     3
     1
-    
 
 # Functions
 
 ## Definition
-
 
 ```python
 def greet(first_name="Xixi", last_name="Zhou"):  # you can set default values for formal parameters.
@@ -370,7 +338,6 @@ def greet(first_name="Xixi", last_name="Zhou"):  # you can set default values fo
 
 ## Calling
 
-
 ```python
 greet()  # the parameter will use the default value
 greet("Shuran", "Xu")
@@ -380,12 +347,10 @@ greet(first_name="Shuran", last_name="Xu")
     Hi Zhou Xixi
     Hi Xu Shuran
     Hi Xu Shuran
-    
 
 ## Types of functions
 
-### 1- Perform a task:
-
+### 1- Perform a task
 
 ```python
 def task():
@@ -396,10 +361,8 @@ task()
 ```
 
     I performed a task!!
-    
 
 ### 2- Return a value
-
 
 ```python
 def value():
@@ -417,4 +380,3 @@ print(value())
     I performed a task!!
     None
     I returned a value!!
-    

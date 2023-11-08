@@ -5,6 +5,7 @@ top: true
 ---
 
 v2misaka is here!
-I will post something I learned about computational chemistry.
-Hope you can find something you want! 
+
+ Hope you can find something you want~
+
 &emsp;&emsp;~misakamisaka says happily and cutely.
