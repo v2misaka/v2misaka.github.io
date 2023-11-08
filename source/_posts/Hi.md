@@ -6,6 +6,6 @@ top: true
 
 v2misaka is here!
 
- Hope you can find something you want~
+&emsp;Hope you can find something you want~
 
-&emsp;&emsp;~misakamisaka says happily and cutely.
+~misakamisaka says with greetings.

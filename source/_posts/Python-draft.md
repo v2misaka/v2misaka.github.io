@@ -45,7 +45,7 @@ print(round(-2.9))
 
 ```python
 course = "   Python programming "  # Notice the blank
-# Escape characters：\n \" \\
+# Escape characters: \n \" \\
 print(len(course))
 ```
 
@@ -132,7 +132,7 @@ print(type(x))
 
 ### Comparison
 
-comparison operators：> < >= <= == !=
+comparison operators: > < >= <= == !=
 
 ```python
 print(ord("B"))  # show the ASCII value
@@ -190,21 +190,21 @@ print("done")
 
 ### Logical
 
-Logical operators：and； or； not
+Logical operators: and; or; not
 
 ```python
 high_income = False
 good_credit = True
 
-if high_income and good_credit:  # 与
+if high_income and good_credit:
     print("Eligible")
 else:
     print("Not Eligible")
-if high_income or good_credit:  # 或
+if high_income or good_credit:
     print("Eligible")
 else:
     print("Not Eligible")
-if (not high_income) and good_credit:  # 非
+if (not high_income) and good_credit:
     print("Eligible")
 else:
     print("Not Eligible")
@@ -329,8 +329,8 @@ while number > 0:
 ## Definition
 
 ```python
-def greet(first_name="Xixi", last_name="Zhou"):  # you can set default values for formal parameters.
-    print(f"Hi {last_name} {first_name}")  # Variables in the definition of a function are all local.
+def greet(first_name="xi", last_name="Xi"):  # you can set default values for formal parameters.
+    print(f"Hi {last_name}{first_name}")  # Variables in the definition of a function are all local.
 
 
 # 2 empty lines after difinition
@@ -340,13 +340,13 @@ def greet(first_name="Xixi", last_name="Zhou"):  # you can set default values fo
 
 ```python
 greet()  # the parameter will use the default value
-greet("Shuran", "Xu")
-greet(first_name="Shuran", last_name="Xu")
+greet("xu", "Xu")
+greet(first_name="xu", last_name="Xu")
 ```
 
-    Hi Zhou Xixi
-    Hi Xu Shuran
-    Hi Xu Shuran
+    Hi Xixi
+    Hi Xuxu
+    Hi Xuxu
 
 ## Types of functions
 
