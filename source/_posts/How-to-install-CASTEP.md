@@ -5,7 +5,7 @@ categories:
 - Code and Software
 - CASTEP
 ---
-This post is ***not*** a substitute to official tutorial, and is just a simplified version, which suit better if you want to install CASTEP on HPC of Wuhan University.  
+This post is ***not*** a substitute to official tutorial, and is just a simplified version.  
 If you have obtain CASTEP, after unpacking, you can read the official install tutorial: **README.INSTALL**
 
 <!-- more -->
