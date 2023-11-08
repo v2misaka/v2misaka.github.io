@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/V32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/V16x16.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Here are my notes on learning Python.Hope that helps. Continuously updating.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python note">
+<meta property="og:url" content="http://example.com/2021/12/29/Python-draft/index.html">
+<meta property="og:site_name" content="v2misaka net">
+<meta property="og:description" content="Here are my notes on learning Python.Hope that helps. Continuously updating.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-29T13:29:12.000Z">
+<meta property="article:modified_time" content="2021-12-29T13:29:12.000Z">
+<meta property="article:author" content="v2misaka">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/29/Python-draft/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Python note | v2misaka net</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<477d8db422d32d4e9576c6ca17c3c0f1>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">v2misaka net</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/29/Python-draft/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="v2misaka">
+      <meta itemprop="description" content="eat before working, sleep before studying">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="v2misaka net">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python note
+        </h1>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-12-29 21:29:12" itemprop="dateCreated datePublished" datetime="2021-12-29T21:29:12+08:00">2021-12-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Here are my notes on learning Python.<br>Hope that helps.</p>
+<p><em><strong>Continuously updating.</strong></em></p>
+<span id="more"></span>
+<h1 id="Primitive-Types"><a href="#Primitive-Types" class="headerlink" title="Primitive Types"></a>Primitive Types</h1><h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="number">10</span> + <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span> - <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span> * <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span> / <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span> // <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span> % <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">10</span> ** <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">abs</span>(-<span class="number">2.9</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">round</span>(-<span class="number">2.9</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>13
+7
+30
+3.3333333333333335
+3
+1
+1000
+2.9
+-3
+</code></pre>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">course = <span class="string">&quot;   Python programming &quot;</span>  <span class="comment"># Notice the blank</span></span><br><span class="line"><span class="comment"># Escape characters：\n \&quot; \\</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(course))</span><br></pre></td></tr></table></figure>
+
+<pre><code>22
+</code></pre>
+<h3 id="methods-for-string"><a href="#methods-for-string" class="headerlink" title="methods for string"></a>methods for string</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(course.upper())</span><br><span class="line"><span class="built_in">print</span>(course.lower())</span><br><span class="line"><span class="built_in">print</span>(course.title())</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(course.strip())</span><br><span class="line"><span class="built_in">print</span>(course.rstrip()+<span class="string">&quot;a&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(course.lstrip()+<span class="string">&quot;a&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># notice the difference</span></span><br><span class="line"><span class="built_in">print</span>(course.find(<span class="string">&quot;pro&quot;</span>))</span><br><span class="line"><span class="built_in">print</span>(course.find(<span class="string">&quot;Pro&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;pro&quot;</span> <span class="keyword">in</span> course)  <span class="comment"># Judgment statement</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;sdif&quot;</span> <span class="keyword">not</span> <span class="keyword">in</span> course)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(course.replace(<span class="string">&quot;p&quot;</span>, <span class="string">&quot;j&quot;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>   PYTHON PROGRAMMING 
+   python programming 
+   Python Programming 
+Python programming
+   Python programminga
+Python programming a
+10
+-1
+True
+True
+   Python jrogramming 
+</code></pre>
+<h3 id="operations-of-string"><a href="#operations-of-string" class="headerlink" title="operations of string"></a>operations of string</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">you = <span class="string">&quot;xixi&quot;</span></span><br><span class="line">me = <span class="string">&quot;xuxu&quot;</span></span><br><span class="line">you_plus_me = you + me</span><br><span class="line">you_love_me = <span class="string">f&quot;<span class="subst">&#123;you&#125;</span> love <span class="subst">&#123;me&#125;</span> <span class="subst">&#123;<span class="number">500</span>+<span class="number">10</span>*<span class="number">2</span>&#125;</span>&quot;</span></span><br><span class="line"><span class="built_in">print</span>(you_plus_me)</span><br><span class="line"><span class="built_in">print</span>(you_love_me)</span><br></pre></td></tr></table></figure>
+
+<pre><code>xixixuxu
+xixi love xuxu 520
+</code></pre>
+<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">bool</span>(<span class="number">0</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">int</span>(<span class="literal">False</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>False
+0
+</code></pre>
+<h2 id="Input-statement"><a href="#Input-statement" class="headerlink" title="Input statement"></a>Input statement</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="built_in">input</span>(<span class="string">&quot;please input x:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Here I inputed&quot;</span>, x ,<span class="string">&quot;as an example&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(x))</span><br><span class="line"><span class="comment"># as a result, the type of the input character needs to be converted before it can be operated</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">int</span>(x)+<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(x))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>Here I inputed 222 as an example
+&lt;class &#39;str&#39;&gt;
+224
+&lt;class &#39;str&#39;&gt;
+</code></pre>
+<h1 id="Control-Flow"><a href="#Control-Flow" class="headerlink" title="Control Flow"></a>Control Flow</h1><h2 id="Conditional-Statements"><a href="#Conditional-Statements" class="headerlink" title="Conditional Statements"></a>Conditional Statements</h2><h3 id="Comparison"><a href="#Comparison" class="headerlink" title="Comparison"></a>Comparison</h3><p>comparison operators：&gt; &lt; &gt;= &lt;= == !=</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">ord</span>(<span class="string">&quot;B&quot;</span>))  <span class="comment"># show the ASCII value</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>66
+</code></pre>
+<h4 id="Comparison-Statements"><a href="#Comparison-Statements" class="headerlink" title="Comparison Statements"></a>Comparison Statements</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">2</span></span><br><span class="line">b = <span class="number">18</span></span><br><span class="line"><span class="keyword">if</span> a == b:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a = b&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> a &lt; b:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a &lt; b&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>a &lt; b
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># a more simpler statement</span></span><br><span class="line">age = <span class="number">25</span></span><br><span class="line">message = <span class="string">&quot;Eligible&quot;</span> <span class="keyword">if</span> age &gt; <span class="number">18</span> <span class="keyword">else</span> <span class="string">&quot;Not Eligible&quot;</span></span><br><span class="line"><span class="built_in">print</span>(message)</span><br><span class="line"><span class="keyword">if</span> <span class="number">18</span> &lt;= age &lt; <span class="number">65</span>: </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Eligible&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Eligible
+Eligible
+</code></pre>
+<h5 id="compare-‘if’-‘elif’"><a href="#compare-‘if’-‘elif’" class="headerlink" title="compare: ‘if’ ; ‘elif’"></a>compare: ‘if’ ; ‘elif’</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">2</span></span><br><span class="line">b = <span class="number">18</span></span><br><span class="line"><span class="keyword">if</span> a == b:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a = b&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> a &lt; b:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a &lt; b&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> (b-a) &gt; <span class="number">5</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a&lt;&lt;b&quot;</span>)  <span class="comment"># &#x27;elif&#x27; won&#x27;t work when former &#x27;if&#x27; works.</span></span><br><span class="line"><span class="keyword">if</span> (b-a) &gt; <span class="number">5</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a&lt;&lt;b&quot;</span>)  <span class="comment"># &#x27;if&#x27; will work nomatter former &#x27;if&#x27; works or not.</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;a &gt; b&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;done&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>a &lt; b
+a&lt;&lt;b
+done
+</code></pre>
+<h3 id="Logical"><a href="#Logical" class="headerlink" title="Logical"></a>Logical</h3><p>Logical operators：and； or； not</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">high_income = <span class="literal">False</span></span><br><span class="line">good_credit = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> high_income <span class="keyword">and</span> good_credit:  <span class="comment"># 与</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Eligible&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Not Eligible&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> high_income <span class="keyword">or</span> good_credit:  <span class="comment"># 或</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Eligible&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Not Eligible&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">not</span> high_income) <span class="keyword">and</span> good_credit:  <span class="comment"># 非</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Eligible&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Not Eligible&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Not Eligible
+Eligible
+Eligible
+</code></pre>
+<h2 id="Loop-Statements"><a href="#Loop-Statements" class="headerlink" title="Loop Statements"></a>Loop Statements</h2><h3 id="for"><a href="#for" class="headerlink" title="for"></a>for</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number =&quot;</span>, number)</span><br><span class="line"><span class="built_in">print</span>(number)</span><br><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">4</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number =&quot;</span>, number)</span><br><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number =&quot;</span>, number)</span><br></pre></td></tr></table></figure>
+
+<pre><code>number = 0
+number = 1
+number = 2
+2
+number = 1
+number = 2
+number = 3
+number = 1
+number = 3
+number = 5
+number = 7
+number = 9
+</code></pre>
+<h4 id="for…else"><a href="#for…else" class="headerlink" title="for…else"></a>for…else</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number =&quot;</span>, number)</span><br><span class="line">    <span class="keyword">if</span> number == <span class="number">3</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Fail&quot;</span>)</span><br><span class="line">        <span class="keyword">break</span>  <span class="comment"># to jump out of the loop</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Success&quot;</span>)  <span class="comment"># only when &#x27;for&#x27; completed without jump out</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;number =&quot;</span>, number)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Success&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>number = 1
+number = 2
+number = 3
+Fail
+number = 1
+number = 2
+number = 3
+number = 4
+Success
+</code></pre>
+<h3 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(<span class="built_in">range</span>(<span class="number">3</span>)))  <span class="comment"># range</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(<span class="string">&quot;I love xixi&quot;</span>))  <span class="comment"># string</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="string">&quot;I love xixi&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">145</span>]))  <span class="comment"># list</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">145</span>]:</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>&lt;class &#39;range&#39;&gt;
+0
+1
+2
+&lt;class &#39;str&#39;&gt;
+I
+ 
+l
+o
+v
+e
+ 
+x
+i
+x
+i
+&lt;class &#39;list&#39;&gt;
+1
+2
+3
+145
+</code></pre>
+<h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">number = <span class="number">100</span></span><br><span class="line"><span class="keyword">while</span> number &gt; <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(number)</span><br><span class="line">    number //= <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>100
+50
+25
+12
+6
+3
+1
+</code></pre>
+<h1 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h1><h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet</span>(<span class="params">first_name=<span class="string">&quot;Xixi&quot;</span>, last_name=<span class="string">&quot;Zhou&quot;</span></span>):</span>  <span class="comment"># you can set default values for formal parameters.</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Hi <span class="subst">&#123;last_name&#125;</span> <span class="subst">&#123;first_name&#125;</span>&quot;</span>)  <span class="comment"># Variables in the definition of a function are all local.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 empty lines after difinition</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Calling"><a href="#Calling" class="headerlink" title="Calling"></a>Calling</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">greet()  <span class="comment"># the parameter will use the default value</span></span><br><span class="line">greet(<span class="string">&quot;Shuran&quot;</span>, <span class="string">&quot;Xu&quot;</span>)</span><br><span class="line">greet(first_name=<span class="string">&quot;Shuran&quot;</span>, last_name=<span class="string">&quot;Xu&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Hi Zhou Xixi
+Hi Xu Shuran
+Hi Xu Shuran
+</code></pre>
+<h2 id="Types-of-functions"><a href="#Types-of-functions" class="headerlink" title="Types of functions"></a>Types of functions</h2><h3 id="1-Perform-a-task"><a href="#1-Perform-a-task" class="headerlink" title="1- Perform a task:"></a>1- Perform a task:</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;I performed a task!!&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">task()</span><br></pre></td></tr></table></figure>
+
+<pre><code>I performed a task!!
+</code></pre>
+<h3 id="2-Return-a-value"><a href="#2-Return-a-value" class="headerlink" title="2- Return a value"></a>2- Return a value</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">value</span>():</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;I returned a value!!&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">message = value()</span><br><span class="line"><span class="built_in">print</span>(message)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(task())</span><br><span class="line"><span class="built_in">print</span>(value())</span><br></pre></td></tr></table></figure>
+
+<pre><code>I returned a value!!
+I performed a task!!
+None
+I returned a value!!
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/28/How-to-install-CASTEP/" rel="prev" title="How to install CASTEP.">
+      <i class="fa fa-chevron-left"></i> How to install CASTEP.
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Primitive-Types"><span class="nav-number">1.</span> <span class="nav-text">Primitive Types</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Number"><span class="nav-number">1.1.</span> <span class="nav-text">Number</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">1.2.</span> <span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#methods-for-string"><span class="nav-number">1.2.1.</span> <span class="nav-text">methods for string</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#operations-of-string"><span class="nav-number">1.2.2.</span> <span class="nav-text">operations of string</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boolean"><span class="nav-number">1.3.</span> <span class="nav-text">Boolean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Input-statement"><span class="nav-number">1.4.</span> <span class="nav-text">Input statement</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Control-Flow"><span class="nav-number">2.</span> <span class="nav-text">Control Flow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional-Statements"><span class="nav-number">2.1.</span> <span class="nav-text">Conditional Statements</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Comparison"><span class="nav-number">2.1.1.</span> <span class="nav-text">Comparison</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Comparison-Statements"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">Comparison Statements</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#compare-%E2%80%98if%E2%80%99-%E2%80%98elif%E2%80%99"><span class="nav-number">2.1.1.1.1.</span> <span class="nav-text">compare: ‘if’ ; ‘elif’</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logical"><span class="nav-number">2.1.2.</span> <span class="nav-text">Logical</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Loop-Statements"><span class="nav-number">2.2.</span> <span class="nav-text">Loop Statements</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for"><span class="nav-number">2.2.1.</span> <span class="nav-text">for</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#for%E2%80%A6else"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">for…else</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterable"><span class="nav-number">2.2.2.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">2.2.3.</span> <span class="nav-text">while</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Functions"><span class="nav-number">3.</span> <span class="nav-text">Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Definition"><span class="nav-number">3.1.</span> <span class="nav-text">Definition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Calling"><span class="nav-number">3.2.</span> <span class="nav-text">Calling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Types-of-functions"><span class="nav-number">3.3.</span> <span class="nav-text">Types of functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Perform-a-task"><span class="nav-number">3.3.1.</span> <span class="nav-text">1- Perform a task:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Return-a-value"><span class="nav-number">3.3.2.</span> <span class="nav-text">2- Return a value</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="v2misaka"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">v2misaka</p>
+  <div class="site-description" itemprop="description">eat before working, sleep before studying</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:v2misaka@gmail.com" title="E-Mail → mailto:v2misaka@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">v2misaka</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
