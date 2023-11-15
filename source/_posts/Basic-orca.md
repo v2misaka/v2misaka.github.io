@@ -7,6 +7,7 @@ categories:
 ---
 This post is for some basic use of **Orca**, including single point calculation; geometry optimization and TDDFT calculations.
 
+<!-- more -->
 # Input file
 
 ## How to generate an input file
