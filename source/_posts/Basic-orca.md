@@ -32,7 +32,7 @@ The common structure for Orca input file is as follows:
 
 ```
 ! Keywords
-# comments
+# comments(You can write anything here)
 %input blocks
 *cordinates
 *
@@ -42,6 +42,62 @@ For more detailed information, please refer to **Orca manual** or [this useful w
 And there is some input files I saved as examples, which can be found at the [Examples](#example_jump) part.
 
 ### Keywords
+
+#### Basic settings
+
+The keyword lines start with a `!`, which define the job type and the methods we use, for example:
+
+```
+! opt HF 6-31G
+# Job type: geometry optimization
+# Method: Hatree-Fock
+# Basis set: 6-31G
+```
+
+or
+
+```
+! M062X def2-TZVP
+# Job type: single point calculation
+# Method: DFT 
+# Exchange-correlation Functional: M062X
+# Basis set: def2-TZVP
+```
+
+>NOTE:
+&emsp;1. You can write as many lines of keywords as you want.
+&emsp;2. If no job type is defined, job type will be `single point calculation`.
+&emsp;3. For DFT, you just need to define the functional, which means that `!B3LYP` and `!DFT B3LYP` are the same.
+
+#### Restart job
+
+`!moread` enables you to read the wavefunction file `*.gbw` from an interrupped job. job. After `!moread`, a `%moinp` block is necessary, eg:
+
+```
+!moread
+%moinp "lastwork.gbw"
+```
+
+>NOTE:
+&emsp;The name of `*.gbw` file **must** be different from the file name of current job.
+
+#### Run parallel job
+
+There are two ways to set up parallel jobs:
+
+```
+! PAL4
+```
+
+```
+%pal
+    nprocs 4
+end
+```
+
+Both of them means using 4 parallel processes.
+>NOTE:
+&emsp;Orca should be called with full path for parallel jobs.
 
 # <span id="example_jump">Examples</span>
 
