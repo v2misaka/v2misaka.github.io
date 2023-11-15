@@ -5,7 +5,7 @@ categories:
 - Tutorials
 - Orca
 ---
-This post is for some basic use of **Orca**, including single point calculation; geometry optimization and TDDFT calculations.
+This post is for some basic use of **Orca**。
 
 <!-- more -->
 # Input file
