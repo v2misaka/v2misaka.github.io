@@ -2,7 +2,7 @@
 title: How to install CASTEP.
 date: 2021/12/28 22:47
 categories: 
-- Code and Software
+- Tutorials
 - CASTEP
 ---
 This post is ***not*** a substitute to official tutorial, and is just a simplified version.  
@@ -18,15 +18,15 @@ Before reading this post, you can get CASTEP through the website:
 
 These are required to compile CASTEP:  
 **<font size="4">1. Fortran 2003 compiler. </font>**  
-Here I recommend GNU Fortran (4.9.1, 5.4.0, 6.3-4, 7.2-7.5, 8.*, 9.2, 9.3.0, 10.1.0).  
+GNU fortran and Intel fortran are both availible.
+In the **README.INSTALL** file there will be the recommended version of Fortran compiler.
+
 **<font size="4">2. Numerical libraries. (implementing the LAPACK and BLAS functionality)</font>**  
 Intel MKL is recommended as it also contains an optimised FFT library. I use mkl included in Intel oneAPI.  
 **<font size="4">3. GNU make version 3.81 or later.</font>**  
 **<font size="4">4. Python.</font>**  
 **<font size="4">5. Optimised FFT library</font>**  
-Intel MKL
-
-While using HPC of WHU, you should load **scl/gcc4.9** and **intel/oneapi/2021** first while install and in the *.sbatch* file.
+**<font size="4">6. Openmpi</font>**
 
 # Install
 
