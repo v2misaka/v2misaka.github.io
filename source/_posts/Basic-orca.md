@@ -81,7 +81,7 @@ or
 >NOTE:
 &emsp;The name of `*.gbw` file **must** be different from the file name of current job.
 
-#### Run parallel job
+#### Run parallel jobs
 
 There are two ways to set up parallel jobs:
 
@@ -98,6 +98,77 @@ end
 Both of them means using 4 parallel processes.
 >NOTE:
 &emsp;Orca should be called with full path for parallel jobs.
+
+### Input blocks
+
+Input blocks are for detailed settings of the calculation, here I only list two frequently used input blocks.
+For more details, please refer to the Orca manual.
+
+#### TDDFT settings
+
+```
+%tddft # Settings for TDDFT calculation
+    nroots 5 # How many excited states
+    dosoc true # Calculate SOC
+    tda false # Turn it off will increase accuracy.
+end #don't forget end
+```
+
+#### Solvent settings
+
+First, a keyword line is needed:
+
+```
+!CPCM(water)
+```
+
+And an input block for detailed settings:
+
+```
+%cpcm
+    smd true
+    SMDsolvent "water"
+end
+```
+
+### Coordinates input
+
+Coordinates can be directly input as:
+
+```
+*coordinate_type charge multiplicity
+    atom_type coordinates
+    atom_type coordinates
+*
+```
+
+For example:
+
+```
+*xyz 0 1
+O   0.305   0.240   0.000
+H   0.305   0.702   0.000
+H   0.610   0.463   0.000
+*
+```
+
+You can also input coordinates from file:
+
+```
+*xyzfile charge multiplicity filename.xyz
+# to input from orca xyz file.
+```
+
+or
+
+```
+*gzmtfile charge multiplicity filename.gzmt
+# to input from Gaussian Z-Matrices files.
+```
+
+>NOTE:
+&emsp;1. After the file name, there **MUST** be a new line to prevent error.
+&emsp;2. Filename should NOT be the same as input file name.
 
 # <span id="example_jump">Examples</span>
 
