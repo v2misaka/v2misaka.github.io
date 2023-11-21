@@ -113,6 +113,14 @@ For more details, please refer to the Orca manual.
     tda false # Turn it off will increase accuracy.
 end #don't forget end
 ```
+If you want to obtain the structures of excited states:
+```
+%tddft
+    IRoot 1 #Here means the first excited state
+    IRootMult Singlet # (or Triplet) setting S or T
+    tda false
+end
+```
 
 #### Solvent settings
 
@@ -169,6 +177,48 @@ or
 >NOTE:
 &emsp;1. After the file name, there **MUST** be a new line to prevent error.
 &emsp;2. Filename should NOT be the same as input file name.
+
+# How to run Orca
+The command to run orca is simple:
+```
+<path_of_orca>/orca filename.inp > filename.out
+```
+And you can also add one line in your `.bashrc`:
+```
+alias orca=<path_of_orca>/orca
+```
+Then you can run orca with:
+```
+orca filename.inp > filename.out
+```
+>NOTE:
+&emsp;Orca **MUST** be called with full path for parallel jobs.
+
+# Output analysis
+You can find all the output in the `.out` file.
+
+## Final energy
+For the final energy, search `FINAL SINGLE POINT ENERGY` in the `.out` file.
+
+## HOMO and LUMO
+
+### Orbital energy
+Search `ORBITAL ENERGIES` in the `.out` file. The second column(`OCC`) means the occupation number of the orbital, and the last column represents the orbital energy with the unit of `eV` For example:
+```
+108 2.0000  -0.290681   -7.9098
+109 2.0000  -0.243684   -6.6310
+110 2.0000  -0.241963   -6.5842
+111 0.0000  -0.069260   -1.8847
+112 0.0000  -0.042617   -1.1597
+113 0.0000  0.009858    0.2682
+```
+Here, orbital 110 is the HOMO, and orbital 111 is the LUMO.
+
+### Plot the orbital
+Please use the command `orca_plot gbw i` to plot the orbitals. Choose output file type to be `Gaussian cube` to visualize it in `Gaussview`.
+
+## SOC Constant
+Search for `CALCULATED SOCME BETWEEN TRIPLETS AND SINGLETS` in the `.out` file, then you can find the x,y,z components of SOC constant.
 
 # <span id="example_jump">Examples</span>
 
@@ -251,5 +301,4 @@ echo "Got $NSLOTS slots."
 module load openmpi-4.1.1
 
 /opt/orca/orca_5_0_3/orca yourjob.inp>yourjob.out
-
 ```
