@@ -1,6 +1,7 @@
 ---
 title: Basics of Orca
 date: 2023-11-15 15:08:32
+mathjax: true
 categories: 
 - Tutorials
 - Orca
@@ -110,10 +111,12 @@ For more details, please refer to the Orca manual.
 %tddft # Settings for TDDFT calculation
     nroots 5 # How many excited states
     dosoc true # Calculate SOC
-    tda false # Turn it off will increase accuracy.
+    tda false # Set Tamm-Dancoff approximation
 end #don't forget end
 ```
+
 If you want to obtain the structures of excited states:
+
 ```
 %tddft
     IRoot 1 #Here means the first excited state
@@ -178,32 +181,68 @@ or
 &emsp;1. After the file name, there **MUST** be a new line to prevent error.
 &emsp;2. Filename should NOT be the same as input file name.
 
+## Settings for B2PLYP functional
+
+In B2PLYP functional, a given density functional(Becke88) is mixed with HF-exchange in a fraction of $c_x$. The correlation energy of DFT is also mixed with MP2 correlation energy in a fraction of $c_c$. The total exchange correlation energy can be expressed as:
+$$E_{XC}=c_xE_{X}^{HF}+(1-c_x)E_{X}^{DFT}+c_cE_{C}^{MP2}+(1-c_c)E_{C}^{DFT}$$
+This can be defined in Orca as:
+
+```
+%method
+    ScalHFX = cx
+    ScalDFX = 1-cx
+    ScalGGAC = 1-cc
+    ScalLDAC = 1-cc
+    ScalMP2C = cc
+end
+```
+
+In order to do B2PLYP calculation by Orca, in addition to normal basis-set, auxiliary basis-set for correlation calculations is neccesary. For example:
+
+```
+! B2PLYP
+! def2-TZVP def2-TZVP/c #define both the basis-set and the auxiliary basis-set.
+```
+
+For the auxiliary basis sets availible in Orca, please refer to the official manual of Orca.
+
 # How to run Orca
-The command to run orca is simple:
+
+The command to run Orca is simple:
+
 ```
 <path_of_orca>/orca filename.inp > filename.out
 ```
+
 And you can also add one line in your `.bashrc`:
+
 ```
 alias orca=<path_of_orca>/orca
 ```
+
 Then you can run orca with:
+
 ```
 orca filename.inp > filename.out
 ```
+
 >NOTE:
 &emsp;Orca **MUST** be called with full path for parallel jobs.
 
 # Output analysis
+
 You can find all the output in the `.out` file.
 
 ## Final energy
+
 For the final energy, search `FINAL SINGLE POINT ENERGY` in the `.out` file.
 
 ## HOMO and LUMO
 
 ### Orbital energy
+
 Search `ORBITAL ENERGIES` in the `.out` file. The second column(`OCC`) means the occupation number of the orbital, and the last column represents the orbital energy with the unit of `eV` For example:
+
 ```
 108 2.0000  -0.290681   -7.9098
 109 2.0000  -0.243684   -6.6310
@@ -212,12 +251,15 @@ Search `ORBITAL ENERGIES` in the `.out` file. The second column(`OCC`) means the
 112 0.0000  -0.042617   -1.1597
 113 0.0000  0.009858    0.2682
 ```
+
 Here, orbital 110 is the HOMO, and orbital 111 is the LUMO.
 
 ### Plot the orbital
+
 Please use the command `orca_plot gbw i` to plot the orbitals. Choose output file type to be `Gaussian cube` to visualize it in `Gaussview`.
 
 ## SOC Constant
+
 Search for `CALCULATED SOCME BETWEEN TRIPLETS AND SINGLETS` in the `.out` file, then you can find the x,y,z components of SOC constant.
 
 # <span id="example_jump">Examples</span>
