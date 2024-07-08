@@ -204,7 +204,7 @@ In order to do B2PLYP calculation by Orca, in addition to normal basis-set, auxi
 ! def2-TZVP def2-TZVP/c #define both the basis-set and the auxiliary basis-set.
 ```
 
-For the auxiliary basis sets availible in Orca, please refer to the official manual of Orca.
+For the auxiliary basis-sets available in Orca, please refer to the official manual of Orca.
 
 # How to run Orca
 
