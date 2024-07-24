@@ -9,6 +9,69 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Simulation of solution evaporation</title>
+    <url>/2024/07/24/MD-vaporizing/</url>
+    <content><![CDATA[<p>This post is for the MD simulation of <em>solution evaporation</em> by <strong>Gromacs</strong>.</p>
+<span id="more"></span>
+<h1 id="Obtain-force-field"><a href="#Obtain-force-field" class="headerlink" title="Obtain force field"></a>Obtain force field</h1><p>You can use default force-fileds provided by Gromacs, or generating by Q-force.</p>
+<h2 id="Q-force"><a href="#Q-force" class="headerlink" title="Q-force"></a>Q-force</h2><p>The command to run <code>Q-force</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">qforce &lt;structure_file&gt; -o option_file</span><br></pre></td></tr></table></figure>
+
+<p>After Q-force generates all the files, two files are needed for MD simulation:<br> Structure: <code>gas.gro</code><br> Force-field: <code>&lt;name&gt;.itp</code></p>
+<h1 id="Building-simulation-box"><a href="#Building-simulation-box" class="headerlink" title="Building simulation box"></a>Building simulation box</h1><h2 id="Building-solute-box"><a href="#Building-solute-box" class="headerlink" title="Building solute box"></a>Building solute box</h2><p>The solute box should be built base on the concentration of solute.<br>Normally $200 mg/mL$ is set.</p>
+<ol>
+<li><em>Set</em> the size of box.</li>
+<li>Calculate how much solute molecules should be in the box.</li>
+<li>Adding one molecule in the box:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx editconf -f &lt;solute&gt;.gro -o ouput_file -box x y z -bt cubic</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>Adding other solute molecules:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx insert-molecules -f file_tobe_inserted -ci structure_tobe_inserted -o output_file -box x y z -nmol numbers_of_molecules</span><br></pre></td></tr></table></figure>
+
+<h2 id="Building-solvent-box"><a href="#Building-solvent-box" class="headerlink" title="Building solvent box"></a>Building solvent box</h2><p>The solvent box should be built base on the density of solvent.</p>
+<ol>
+<li><em>Calculate</em> the size of box.</li>
+<li>Generate solvent box:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx editconf -f solvent_file -o output_file -box a a a -bt cubic -c -rotate a b c</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Check if the solvent molecules connected with each other:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx genconf -f solvent_box -o output_file -nbox nx ny nz</span><br></pre></td></tr></table></figure>
+
+<p>If connected, change <code>-rotate a b c</code></p>
+<h2 id="Building-solution-box"><a href="#Building-solution-box" class="headerlink" title="Building solution box"></a>Building solution box</h2><p>Using the following code to generate solution box:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx solvate -cp solute -cs solvent -o output</span><br></pre></td></tr></table></figure>
+
+<p>Some optional parameters:<br> <code>-scale x</code>: For setting the VDW interaction. Default value is <code>0.57</code>.</p>
+<h2 id="Generate-topology-file"><a href="#Generate-topology-file" class="headerlink" title="Generate topology file"></a>Generate topology file</h2><p>An example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">;</span><br><span class="line">#include &quot;/home/ufslab223/shuran/ForceField/forcefield.itp&quot;</span><br><span class="line"></span><br><span class="line">#include &quot;/home/ufslab223/shuran/2311_kwak_MD/CzCzPh/Forcefield/CzCzPh_qforce.itp&quot;</span><br><span class="line">#include &quot;/home/ufslab223/shuran/2311_kwak_MD/CzCzPh/Forcefield/toluene_qforce.itp&quot;</span><br><span class="line"></span><br><span class="line">[ system ]</span><br><span class="line">; Name</span><br><span class="line">CzCzPh</span><br><span class="line"></span><br><span class="line">[ molecules ]</span><br><span class="line">; Compound       #mols</span><br><span class="line">CzCzP 295</span><br><span class="line">tolue 3273</span><br></pre></td></tr></table></figure>
+
+<h1 id="Pre-equilibrium"><a href="#Pre-equilibrium" class="headerlink" title="Pre-equilibrium"></a>Pre-equilibrium</h1><h2 id="Energy-minimization"><a href="#Energy-minimization" class="headerlink" title="Energy minimization"></a>Energy minimization</h2><h3 id="Preprocess"><a href="#Preprocess" class="headerlink" title="Preprocess"></a>Preprocess</h3><h4 id="Edit-mdp-file"><a href="#Edit-mdp-file" class="headerlink" title="Edit .mdp file"></a>Edit <code>.mdp</code> file</h4><p>An example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">;</span><br><span class="line">; GROMACS</span><br><span class="line">; Energy Minimization Script</span><br><span class="line">;</span><br><span class="line">;</span><br><span class="line">define  = -DFLEXIBLE ; pass to preprocessor</span><br><span class="line">cpp  = usr/bin/cpp ; location of preprocessor</span><br><span class="line">constraints = none</span><br><span class="line">integrator = steep  ; steepest decents minimum (else cg)</span><br><span class="line">nsteps  = 1000</span><br><span class="line">;</span><br><span class="line">; Energy Minimizing Stuff</span><br><span class="line">;</span><br><span class="line">emtol  = 10    ; convergence total force(kJ/mol/nm) is smaller than</span><br><span class="line">emstep  = 0.01  ; initial step size (nm)</span><br><span class="line">nstcomm  = 100  ; frequency or COM motion removal</span><br><span class="line">ns_type  = grid</span><br><span class="line">rlist  = 1.0  ; cut-off distance for short range neighbors</span><br><span class="line">rcoulomb = 1.0  ; distance for coulomb cut-off</span><br><span class="line">coulombtype = PME  ; electrostatics (Particle Mesh Ewald method)</span><br><span class="line">fourierspacing = 0.12  ; max grid spacing when using PPPM or PME</span><br><span class="line">vdw-type = Shift</span><br><span class="line">rvdw  = 1.0  ; VDW cut-off</span><br><span class="line">Tcoupl  = no  ; temperature coupling</span><br><span class="line">Pcoupl  = no  ; pressure coupling</span><br><span class="line">gen_vel  = no</span><br></pre></td></tr></table></figure>
+
+<h4 id="Run-grompp"><a href="#Run-grompp" class="headerlink" title="Run grompp"></a>Run <code>grompp</code></h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx grompp -f mdpfile -o output.tpr -p topology_file -c input_str -maxwarn 50</span><br></pre></td></tr></table></figure>
+
+<h3 id="Run-em"><a href="#Run-em" class="headerlink" title="Run em"></a>Run em</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx mdrun -v -deffnm em -nb gpu</span><br></pre></td></tr></table></figure>
+
+<h2 id="NVT"><a href="#NVT" class="headerlink" title="NVT"></a>NVT</h2><h3 id="Generate-mdp-file"><a href="#Generate-mdp-file" class="headerlink" title="Generate .mdp file"></a>Generate <code>.mdp</code> file</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">title                   = OPLS Lysozyme NVT</span><br><span class="line">define                  = -DPOSRES  ; position restrain the protein</span><br><span class="line"></span><br><span class="line">; Run parameters</span><br><span class="line">integrator              = md        ; leap-frog integrator</span><br><span class="line">nsteps                  = 400000      ; 2 * 50000 = 100 ps</span><br><span class="line">dt                      = 0.001     ; 2 fs</span><br><span class="line"></span><br><span class="line">; Output control</span><br><span class="line">nstxout                 = 5000       ; save coordinates every 1.0 ps 9.999</span><br><span class="line">nstvout                 = 5000       ; save velocities every 1.0 ps</span><br><span class="line">nstenergy               = 5000      ; save energies every 1.0 ps</span><br><span class="line">nstlog                  = 5000       ; update log file every 1.0 ps</span><br><span class="line"></span><br><span class="line">; Bond parameters</span><br><span class="line">continuation            = no        ; first dynamics run</span><br><span class="line">constraint_algorithm    = lincs     ; holonomic constraints </span><br><span class="line">constraints             = h-bonds   ; bonds involving H are constrained</span><br><span class="line">lincs_iter              = 1         ; accuracy of LINCS</span><br><span class="line">lincs_order             = 4         ; also related to accuracy</span><br><span class="line"></span><br><span class="line">; Nonbonded settings </span><br><span class="line">cutoff-scheme           = Verlet    ; Buffered neighbor searching</span><br><span class="line">ns_type                 = grid      ; search neighboring grid cells</span><br><span class="line">nstlist                 = 10        ; 20 fs, largely irrelevant with Verlet</span><br><span class="line">rcoulomb                = 1.0       ; short-range electrostatic cutoff (in nm)</span><br><span class="line">rvdw                    = 1.0       ; short-range van der Waals cutoff (in nm)</span><br><span class="line">DispCorr                = EnerPres  ; account for cut-off vdW scheme</span><br><span class="line"></span><br><span class="line">; Electrostatics</span><br><span class="line">coulombtype             = PME       ; Particle Mesh Ewald for long-range electrostatics</span><br><span class="line">pme_order               = 4         ; cubic interpolation</span><br><span class="line">fourierspacing          = 0.16      ; grid spacing for FFT</span><br><span class="line"></span><br><span class="line">; Temperature coupling is on</span><br><span class="line">Tcoupl      = V-rescale</span><br><span class="line">tc_grps     = system </span><br><span class="line">tau_t       = 0.1</span><br><span class="line">ref_t       = 333</span><br><span class="line"></span><br><span class="line">; Pressure coupling is off</span><br><span class="line">pcoupl                  = no        ; no pressure coupling in NVT</span><br><span class="line"></span><br><span class="line">; Periodic boundary conditions</span><br><span class="line">pbc                     = xyz       ; 3-D PBC</span><br><span class="line">periodic-molecules = yes</span><br><span class="line"></span><br><span class="line">gen_vel   = yes</span><br><span class="line">gen_temp  = 300</span><br><span class="line">gen_seed  = -1</span><br></pre></td></tr></table></figure>
+
+<h3 id="Run-md"><a href="#Run-md" class="headerlink" title="Run md"></a>Run md</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx grompp -f mdpfile -o outputfile -p topologyfile -c inputstructure</span><br><span class="line">gmx mdrun -v -deffnm mdname</span><br></pre></td></tr></table></figure>
+
+<h2 id="NPT"><a href="#NPT" class="headerlink" title="NPT"></a>NPT</h2><h3 id="Generate-mdp-file-1"><a href="#Generate-mdp-file-1" class="headerlink" title="Generate .mdp file"></a>Generate <code>.mdp</code> file</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">title                   = OPLS Lysozyme NVT equilibration </span><br><span class="line">define                  = -DPOSRES  ; position restrain the protein</span><br><span class="line">; Run parameters</span><br><span class="line">integrator              = md        ; leap-frog integrator</span><br><span class="line">nsteps                  = 2500000    ; 2 * 50000 = 100 ps</span><br><span class="line">dt                      = 0.001     ; 2 fs</span><br><span class="line">; Output control</span><br><span class="line">nstxout                 = 10000       ; save coordinates every 1.0 ps 102</span><br><span class="line">nstvout                 = 10000       ; save velocities every 1.0 ps</span><br><span class="line">nstenergy               = 10000      ; save energies every 1.0 ps</span><br><span class="line">nstlog                  = 10000       ; update log file every 1.0 ps</span><br><span class="line">; Bond parameters</span><br><span class="line">continuation            = yes        ; first dynamics run</span><br><span class="line">constraint_algorithm    = lincs     ; holonomic constraints </span><br><span class="line">constraints             = h-bonds   ; bonds involving H are constrained</span><br><span class="line">lincs_iter              = 1         ; accuracy of LINCS</span><br><span class="line">lincs_order             = 4         ; also related to accuracy</span><br><span class="line">; Nonbonded settings </span><br><span class="line">cutoff-scheme           = Verlet    ; Buffered neighbor searching</span><br><span class="line">ns_type                 = grid      ; search neighboring grid cells</span><br><span class="line">nstlist                 = 10        ; 20 fs, largely irrelevant with Verlet</span><br><span class="line">rcoulomb                = 1.0       ; short-range electrostatic cutoff (in nm)</span><br><span class="line">rvdw                    = 1.0       ; short-range van der Waals cutoff (in nm)</span><br><span class="line">DispCorr                = EnerPres  ; account for cut-off vdW scheme</span><br><span class="line">; Electrostatics</span><br><span class="line">coulombtype             = PME       ; Particle Mesh Ewald for long-range electrostatics</span><br><span class="line">pme_order               = 4         ; cubic interpolation</span><br><span class="line">fourierspacing          = 0.16      ; grid spacing for FFT</span><br><span class="line">; Temperature coupling is on</span><br><span class="line">Tcoupl      = V-rescale</span><br><span class="line">tc_grps     = system </span><br><span class="line">tau_t       = 0.1</span><br><span class="line">ref_t       = 333 ; temperature</span><br><span class="line">; Pressure coupling is on</span><br><span class="line">Pcoupl          = Berendsen</span><br><span class="line">pcoupltype      = isotropic</span><br><span class="line">tau_p           = 1.0       </span><br><span class="line">compressibility = 1.1e-4 </span><br><span class="line">ref_p           = 1.0              ;pressure</span><br><span class="line">refcoord_scaling = com</span><br><span class="line"></span><br><span class="line">; Periodic boundary conditions</span><br><span class="line">pbc                     = xyz       ; 2-D PBC</span><br><span class="line">periodic-molecules = yes</span><br><span class="line"></span><br><span class="line">; Velocity generation</span><br><span class="line">gen_vel                 = no        ; assign velocities from Maxwell distribution</span><br><span class="line">gen_temp                = 300       ; temperature for Maxwell distribution</span><br><span class="line">gen_seed                = -1        ; generate a random seed</span><br></pre></td></tr></table></figure>
+
+<h3 id="Run-md-1"><a href="#Run-md-1" class="headerlink" title="Run md"></a>Run md</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gmx grompp -f mdpfile -o outputfile -p topologyfile -c inputstructure</span><br><span class="line">gmx mdrun -v -deffnm mdname</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Tutorials</category>
+        <category>Orca</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Basics of Orca</title>
     <url>/2023/11/15/Basic-orca/</url>
     <content><![CDATA[<p>This post is for some basic use of <strong>Orca</strong>。</p>
@@ -19,9 +82,87 @@
 <p>If you want to generate input file by yourself, you can create a <code>filename.txt</code> file, then save it as <code>filename.inp</code>, and remember to change the file type to be <code>All files</code>.</p>
 <p><strong>VS Code</strong> is recommended for Windows users, because it enables Linux-like approach to create files.</p>
 <h2 id="Structure-of-input-file"><a href="#Structure-of-input-file" class="headerlink" title="Structure of input file"></a>Structure of input file</h2><p>The common structure for Orca input file is as follows:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">! Keywords</span><br><span class="line"># comments</span><br><span class="line">%input blocks</span><br><span class="line">*cordinates</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">! Keywords</span><br><span class="line"># comments(You can write anything here)</span><br><span class="line">%input blocks</span><br><span class="line">*cordinates</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
 
 <p>For more detailed information, please refer to <strong>Orca manual</strong> or <a href="https://sites.google.com/site/orcainputlibrary/home?authuser=0">this useful web page</a>.<br>And there is some input files I saved as examples, which can be found at the <a href="#example_jump">Examples</a> part.</p>
+<h3 id="Keywords"><a href="#Keywords" class="headerlink" title="Keywords"></a>Keywords</h3><h4 id="Basic-settings"><a href="#Basic-settings" class="headerlink" title="Basic settings"></a>Basic settings</h4><p>The keyword lines start with a <code>!</code>, which define the job type and the methods we use, for example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">! opt HF 6-31G</span><br><span class="line"># Job type: geometry optimization</span><br><span class="line"># Method: Hatree-Fock</span><br><span class="line"># Basis set: 6-31G</span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">! M062X def2-TZVP</span><br><span class="line"># Job type: single point calculation</span><br><span class="line"># Method: DFT </span><br><span class="line"># Exchange-correlation Functional: M062X</span><br><span class="line"># Basis set: def2-TZVP</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>NOTE:<br>&emsp;1. You can write as many lines of keywords as you want.<br>&emsp;2. If no job type is defined, job type will be <code>single point calculation</code>.<br>&emsp;3. For DFT, you just need to define the functional, which means that <code>!B3LYP</code> and <code>!DFT B3LYP</code> are the same.</p>
+</blockquote>
+<h4 id="Restart-job"><a href="#Restart-job" class="headerlink" title="Restart job"></a>Restart job</h4><p><code>!moread</code> enables you to read the wavefunction file <code>*.gbw</code> from an interrupped job. job. After <code>!moread</code>, a <code>%moinp</code> block is necessary, eg:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!moread</span><br><span class="line">%moinp &quot;lastwork.gbw&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>NOTE:<br>&emsp;The name of <code>*.gbw</code> file <strong>must</strong> be different from the file name of current job.</p>
+</blockquote>
+<h4 id="Run-parallel-jobs"><a href="#Run-parallel-jobs" class="headerlink" title="Run parallel jobs"></a>Run parallel jobs</h4><p>There are two ways to set up parallel jobs:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">! PAL4</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%pal</span><br><span class="line">    nprocs 4</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>Both of them means using 4 parallel processes.</p>
+<blockquote>
+<p>NOTE:<br>&emsp;Orca should be called with full path for parallel jobs.</p>
+</blockquote>
+<h3 id="Input-blocks"><a href="#Input-blocks" class="headerlink" title="Input blocks"></a>Input blocks</h3><p>Input blocks are for detailed settings of the calculation, here I only list two frequently used input blocks.<br>For more details, please refer to the Orca manual.</p>
+<h4 id="TDDFT-settings"><a href="#TDDFT-settings" class="headerlink" title="TDDFT settings"></a>TDDFT settings</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%tddft # Settings for TDDFT calculation</span><br><span class="line">    nroots 5 # How many excited states</span><br><span class="line">    dosoc true # Calculate SOC</span><br><span class="line">    tda false # Set Tamm-Dancoff approximation</span><br><span class="line">end #don&#x27;t forget end</span><br></pre></td></tr></table></figure>
+
+<p>If you want to obtain the structures of excited states:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%tddft</span><br><span class="line">    IRoot 1 #Here means the first excited state</span><br><span class="line">    IRootMult Singlet # (or Triplet) setting S or T</span><br><span class="line">    tda false</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="Solvent-settings"><a href="#Solvent-settings" class="headerlink" title="Solvent settings"></a>Solvent settings</h4><p>First, a keyword line is needed:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!CPCM(water)</span><br></pre></td></tr></table></figure>
+
+<p>And an input block for detailed settings:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%cpcm</span><br><span class="line">    smd true</span><br><span class="line">    SMDsolvent &quot;water&quot;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h3 id="Coordinates-input"><a href="#Coordinates-input" class="headerlink" title="Coordinates input"></a>Coordinates input</h3><p>Coordinates can be directly input as:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*coordinate_type charge multiplicity</span><br><span class="line">    atom_type coordinates</span><br><span class="line">    atom_type coordinates</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
+
+<p>For example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*xyz 0 1</span><br><span class="line">O   0.305   0.240   0.000</span><br><span class="line">H   0.305   0.702   0.000</span><br><span class="line">H   0.610   0.463   0.000</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
+
+<p>You can also input coordinates from file:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*xyzfile charge multiplicity filename.xyz</span><br><span class="line"># to input from orca xyz file.</span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">*gzmtfile charge multiplicity filename.gzmt</span><br><span class="line"># to input from Gaussian Z-Matrices files.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>NOTE:<br>&emsp;1. After the file name, there <strong>MUST</strong> be a new line to prevent error.<br>&emsp;2. Filename should NOT be the same as input file name.</p>
+</blockquote>
+<h2 id="Settings-for-B2PLYP-functional"><a href="#Settings-for-B2PLYP-functional" class="headerlink" title="Settings for B2PLYP functional"></a>Settings for B2PLYP functional</h2><p>In B2PLYP functional, a given density functional(Becke88) is mixed with HF-exchange in a fraction of $c_x$. The correlation energy of DFT is also mixed with MP2 correlation energy in a fraction of $c_c$. The total exchange correlation energy can be expressed as:<br>$$E_{XC}=c_xE_{X}^{HF}+(1-c_x)E_{X}^{DFT}+c_cE_{C}^{MP2}+(1-c_c)E_{C}^{DFT}$$<br>This can be defined in Orca as:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%method</span><br><span class="line">    ScalHFX = cx</span><br><span class="line">    ScalDFX = 1-cx</span><br><span class="line">    ScalGGAC = 1-cc</span><br><span class="line">    ScalLDAC = 1-cc</span><br><span class="line">    ScalMP2C = cc</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>In order to do B2PLYP calculation by Orca, in addition to normal basis-set, auxiliary basis-set for correlation calculations is neccesary. For example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">! B2PLYP</span><br><span class="line">! def2-TZVP def2-TZVP/c #define both the basis-set and the auxiliary basis-set.</span><br></pre></td></tr></table></figure>
+
+<p>For the auxiliary basis-sets available in Orca, please refer to the official manual of Orca.</p>
+<h1 id="How-to-run-Orca"><a href="#How-to-run-Orca" class="headerlink" title="How to run Orca"></a>How to run Orca</h1><p>The command to run Orca is simple:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;path_of_orca&gt;/orca filename.inp &gt; filename.out</span><br></pre></td></tr></table></figure>
+
+<p>And you can also add one line in your <code>.bashrc</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alias orca=&lt;path_of_orca&gt;/orca</span><br></pre></td></tr></table></figure>
+
+<p>Then you can run orca with:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">orca filename.inp &gt; filename.out</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>NOTE:<br>&emsp;Orca <strong>MUST</strong> be called with full path for parallel jobs.</p>
+</blockquote>
+<h1 id="Output-analysis"><a href="#Output-analysis" class="headerlink" title="Output analysis"></a>Output analysis</h1><p>You can find all the output in the <code>.out</code> file.</p>
+<h2 id="Final-energy"><a href="#Final-energy" class="headerlink" title="Final energy"></a>Final energy</h2><p>For the final energy, search <code>FINAL SINGLE POINT ENERGY</code> in the <code>.out</code> file.</p>
+<h2 id="HOMO-and-LUMO"><a href="#HOMO-and-LUMO" class="headerlink" title="HOMO and LUMO"></a>HOMO and LUMO</h2><h3 id="Orbital-energy"><a href="#Orbital-energy" class="headerlink" title="Orbital energy"></a>Orbital energy</h3><p>Search <code>ORBITAL ENERGIES</code> in the <code>.out</code> file. The second column(<code>OCC</code>) means the occupation number of the orbital, and the last column represents the orbital energy with the unit of <code>eV</code> For example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">108 2.0000  -0.290681   -7.9098</span><br><span class="line">109 2.0000  -0.243684   -6.6310</span><br><span class="line">110 2.0000  -0.241963   -6.5842</span><br><span class="line">111 0.0000  -0.069260   -1.8847</span><br><span class="line">112 0.0000  -0.042617   -1.1597</span><br><span class="line">113 0.0000  0.009858    0.2682</span><br></pre></td></tr></table></figure>
+
+<p>Here, orbital 110 is the HOMO, and orbital 111 is the LUMO.</p>
+<h3 id="Plot-the-orbital"><a href="#Plot-the-orbital" class="headerlink" title="Plot the orbital"></a>Plot the orbital</h3><p>Please use the command <code>orca_plot gbw i</code> to plot the orbitals. Choose output file type to be <code>Gaussian cube</code> to visualize it in <code>Gaussview</code>.</p>
+<h2 id="SOC-Constant"><a href="#SOC-Constant" class="headerlink" title="SOC Constant"></a>SOC Constant</h2><p>Search for <code>CALCULATED SOCME BETWEEN TRIPLETS AND SINGLETS</code> in the <code>.out</code> file, then you can find the x,y,z components of SOC constant.</p>
 <h1 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a><span id="example_jump">Examples</span></h1><h2 id="Geometry-optimization"><a href="#Geometry-optimization" class="headerlink" title="Geometry optimization"></a>Geometry optimization</h2><p>This is an example for geometry optimization.</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!B3LYP 6-31g(d,p) opt tightscf</span><br><span class="line"># Functional and basis set. opt means the job type is opt. Default job type is single point calculation.</span><br><span class="line"></span><br><span class="line">%pal  # How many cores used</span><br><span class="line">    nprocs 36</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">!CPCM(water)  #solvent settings</span><br><span class="line">%cpcm</span><br><span class="line">    smd true</span><br><span class="line">    SMDsolvent &quot;water&quot;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line"># Sinplest way to input cordinates.</span><br><span class="line">*xyz 0 1    #cordinates_type charge spin</span><br><span class="line">O 0 0 0</span><br><span class="line">*</span><br><span class="line"># Remember the &#x27;*&#x27; at the end!!!!!</span><br></pre></td></tr></table></figure>
 
@@ -29,7 +170,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!M062X 6-31g(d,p) tightscf  # I think &#x27;tightscf&#x27; is the default setting.</span><br><span class="line"></span><br><span class="line">%tddft  # Settings for TDDFT calculation</span><br><span class="line">nroots 5    # How many excited states</span><br><span class="line">dosoc true  # Calculate SOC</span><br><span class="line">tda false   # Just close it, goes wrong easily.</span><br><span class="line">end     #don&#x27;t forget end</span><br><span class="line"></span><br><span class="line">%pal</span><br><span class="line">    nprocs 36   # How many cores for parallel running</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">!CPCM(water)    # Solvent settings</span><br><span class="line">%cpcm</span><br><span class="line">    smd true</span><br><span class="line">    SMDsolvent &quot;water&quot;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">#This is another way to input cordinates, remember to have a new line at the end.</span><br><span class="line">#This file should not be the same name as input file.</span><br><span class="line">*xyzfile 0 1 opt.xyz</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*xyz 0 1</span><br><span class="line">O 0 0 0</span><br><span class="line">*</span><br></pre></td></tr></table></figure>
 
 <h2 id="Bash-script"><a href="#Bash-script" class="headerlink" title="Bash script"></a>Bash script</h2><p>This is the example of bash script to submit Orca calculation jobs for the cluster of UFS Lab.</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#$ -pe mpi_36 36</span><br><span class="line">#$ -N Orca_yourname</span><br><span class="line">#$ -S /bin/bash</span><br><span class="line">#$ -q all.q@node02</span><br><span class="line">#$ -V</span><br><span class="line">#$ -cwd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;Got $NSLOTS slots.&quot;</span><br><span class="line"></span><br><span class="line">module load openmpi-4.1.1</span><br><span class="line"></span><br><span class="line">/opt/orca/orca_5_0_3/orca yourjob.inp&gt;yourjob.out</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#$ -pe mpi_36 36</span><br><span class="line">#$ -N Orca_yourname</span><br><span class="line">#$ -S /bin/bash</span><br><span class="line">#$ -q all.q@node02</span><br><span class="line">#$ -V</span><br><span class="line">#$ -cwd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;Got $NSLOTS slots.&quot;</span><br><span class="line"></span><br><span class="line">module load openmpi-4.1.1</span><br><span class="line"></span><br><span class="line">/opt/orca/orca_5_0_3/orca yourjob.inp&gt;yourjob.out</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Tutorials</category>
