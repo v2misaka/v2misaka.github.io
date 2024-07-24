@@ -4,7 +4,7 @@ date: 2024-07-24
 mathjax: true
 categories: 
 - Tutorials
-- Orca
+- Gromacs
 ---
 This post is for the MD simulation of *solution evaporation* by **Gromacs**.
 
