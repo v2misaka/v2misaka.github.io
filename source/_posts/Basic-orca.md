@@ -184,7 +184,11 @@ or
 ## Settings for B2PLYP functional
 
 In B2PLYP functional, a given density functional(Becke88) is mixed with HF-exchange in a fraction of $c_x$. The correlation energy of DFT is also mixed with MP2 correlation energy in a fraction of $c_c$. The total exchange correlation energy can be expressed as:
-$$E_\text{XC}=c_xE_\text{X}^\text{HF}+(1-c_x)E_\text{X}^\text{DFT}+c_cE_\text{C}^\text{MP2}+(1-c_c)E_\text{C}^\text{DFT}$$
+
+$$\begin{equation}
+E_\text{XC}=c_\text{X}E_\text{X,HF}+(1-c_\text{X})E_\text{X,DFT}+c_\text{C}E_\text{C,MP2}+(1-c_\text{C})E_\text{C,DFT}
+\end{equation}$$
+
 This can be defined in Orca as:
 
 ```
