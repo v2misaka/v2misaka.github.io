@@ -65,9 +65,9 @@ or
 # Basis set: def2-TZVP
 ```
 
->NOTE:
-&emsp;1. You can write as many lines of keywords as you want.
-&emsp;2. If no job type is defined, job type will be `single point calculation`.
+>NOTE:<br/>
+&emsp;1. You can write as many lines of keywords as you want.<br/>
+&emsp;2. If no job type is defined, job type will be `single point calculation`.<br/>
 &emsp;3. For DFT, you just need to define the functional, which means that `!B3LYP` and `!DFT B3LYP` are the same.
 
 #### Restart job
@@ -177,8 +177,8 @@ or
 # to input from Gaussian Z-Matrices files.
 ```
 
->NOTE:
-&emsp;1. After the file name, there **MUST** be a new line to prevent error.
+>NOTE:<br/>
+&emsp;1. After the file name, there **MUST** be a new line to prevent error.<br/>
 &emsp;2. Filename should NOT be the same as input file name.
 
 ## Settings for B2PLYP functional
